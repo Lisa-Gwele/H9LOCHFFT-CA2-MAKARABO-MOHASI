@@ -1,3 +1,6 @@
+How Can Sciar Tips Design a fair, accessible and transparent tipping experience that helps staff understand their pay outs and build trust?
+
+
 # Starter (optional)
 
 Copy `app.html` and the `data/` folder into your repository, open `app.html`, and check it says
