@@ -175,18 +175,21 @@
     </section>
 
     <section class="card" aria-labelledby="concern-heading">
-      <p class="eyebrow">Private local note · demo only</p>
+      <p class="eyebrow">Local note · demo only</p>
       <h2 id="concern-heading">Record a concern</h2>
-      <p class="privacy-copy">You can write a concern and save a copy in this browser so you can view it again. It stays with this browser profile because the pack provides no independent concern-handling service; it is not sent to Sciar, Halloran’s, or a manager. That limits unintended disclosure while leaving you a record to revisit. Anyone with access to this browser profile or device may be able to view the saved note.</p>
+      <p class="privacy-copy"><strong>Demo limitation:</strong> this form saves a note in this browser only. It does not send the note to Sciar, Halloran’s, or a manager, so Sciar cannot use it to improve the product. The case pack provides no submission service or named recipient. Anyone with access to this browser profile or device may be able to read the saved note.</p>
+      <p class="privacy-copy">Only enter what is needed to describe the issue. Avoid names, contact details, or other identifying or sensitive information unless it is essential to explain the concern. The note is saved only when you choose Save; it is not uploaded by this page.</p>
       <form id="concern-form" class="concern-form">
         <label for="concern-text">Your concern</label>
         <textarea id="concern-text" name="concern" maxlength="1500" required aria-describedby="concern-help" placeholder="Write your concern here"></textarea>
-        <p id="concern-help" class="form-help">Up to 1,500 characters. Do not include information you do not want stored in this browser.</p>
+        <p id="concern-help" class="form-help">Up to 1,500 characters. This demo has no expiry setting: remove the note here or clear this browser’s site data when you no longer need it.</p>
         <button class="button" type="submit">Save concern on this device</button>
       </form>
       <div id="concern-status" class="status" role="status" aria-live="polite" hidden></div>
       <div id="saved-list" class="saved-list" aria-label="Your saved concerns"></div>
-      <p id="storage-note" class="data-note">Saved entries remain in this browser’s local storage until removed here or browser data is cleared.</p>
+      <button class="button secondary" id="clear-concerns" type="button">Delete all saved notes from this browser</button>
+      <p id="storage-note" class="data-note">Saved entries remain in this browser’s local storage until deleted here or browser data is cleared. This is a demonstration, not a monitored complaint or product-feedback channel.</p>
+      <p class="data-note"><strong>Product feedback:</strong> no live route to Sciar is configured in this project. A real product should offer a separate, clearly explained optional feedback route, with a named recipient, purpose, access limits, retention period, and user-facing privacy information.</p>
     </section>
   </main>
   <footer class="footer"><div class="footer-inner">Fictional teaching case (H9LOCHFFT, NCI). Figures come from the supplied case files and are shown with their calculation method.</div></footer>
@@ -367,6 +370,13 @@
           announce('The local record was removed from this browser.', 'success');
         } catch (error) { announce(`Could not remove the local record: ${error.message}`, 'error'); }
       }
+      el('clear-concerns').addEventListener('click', () => {
+        try {
+          localStorage.removeItem(storageKey);
+          renderConcerns();
+          announce('All concern notes saved by this demo were deleted from this browser.', 'success');
+        } catch (error) { announce(`Could not delete saved notes: ${error.message}`, 'error'); }
+      });
 
       el('concern-form').addEventListener('submit', (event) => {
         event.preventDefault();
