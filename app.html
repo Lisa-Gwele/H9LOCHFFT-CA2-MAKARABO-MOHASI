@@ -1,15 +1,419 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sciar Tips · staff view (starter)</title></head>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102821">
+  <title>Sciar Tips | Staff view</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18362e;
+      --muted: #53665f;
+      --paper: #f5f7f3;
+      --card: #fff;
+      --line: #d9e2dc;
+      --green: #175d49;
+      --green-dark: #104a39;
+      --mint: #e7f2ec;
+      --gold: #f0c66c;
+      --warning: #6a4d16;
+      --warning-bg: #fff6df;
+      --error: #8b2f28;
+      --radius: 18px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-size: 17px; line-height: 1.55; }
+    a { color: var(--green-dark); }
+    .topbar { background: #102821; color: #fff; }
+    .topbar-inner, main, .footer-inner { width: min(100% - 32px, 940px); margin: 0 auto; }
+    .topbar-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { color: white; text-decoration: none; font-size: 1.08rem; font-weight: 750; letter-spacing: .01em; }
+    .brand-mark { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-right: 9px; border-radius: 11px; background: var(--gold); color: #102821; font-weight: 900; }
+    .top-note { color: #d3e4dc; font-size: .87rem; }
+    main { padding: 38px 0 58px; }
+    .eyebrow { margin: 0 0 7px; color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 9px; font-size: clamp(2rem, 7vw, 3rem); line-height: 1.08; letter-spacing: -.04em; }
+    h2 { margin-bottom: 8px; font-size: 1.35rem; line-height: 1.25; }
+    h3 { margin-bottom: 5px; font-size: 1rem; }
+    .intro { max-width: 680px; margin-bottom: 24px; color: var(--muted); font-size: 1.03rem; }
+    .notice { margin: 20px 0; padding: 14px 16px; border: 1px solid #e8d393; border-radius: 13px; background: var(--warning-bg); color: #453514; font-size: .91rem; }
+    .notice strong { color: #392a0c; }
+    .status { margin: 18px 0; padding: 12px 14px; border-radius: 12px; background: #e8edf0; color: #273e48; }
+    .status[hidden] { display: none; }
+    .status.error { background: #f9e8e6; color: var(--error); }
+    .status.success { background: var(--mint); color: var(--green-dark); }
+    .card { margin-top: 18px; padding: clamp(18px, 4vw, 28px); border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); box-shadow: 0 8px 26px rgb(21 50 40 / 4%); }
+    .section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 17px; }
+    .section-heading p { margin-bottom: 0; color: var(--muted); font-size: .94rem; }
+    .week-control { min-width: 158px; }
+    label { display: block; margin-bottom: 6px; color: var(--ink); font-size: .9rem; font-weight: 700; }
+    select, textarea, button { font: inherit; }
+    select, textarea { width: 100%; border: 1px solid #98aaa0; border-radius: 11px; background: #fff; color: var(--ink); }
+    select { min-height: 48px; padding: 8px 38px 8px 12px; }
+    textarea { min-height: 138px; padding: 12px; resize: vertical; }
+    select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #dfaa36; outline-offset: 3px; }
+    .payout-hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 16px; }
+    .amount-panel { min-height: 172px; padding: 23px; border-radius: 16px; background: var(--green); color: #fff; display: flex; flex-direction: column; justify-content: space-between; }
+    .amount-panel .label { color: #d8ebe2; font-size: .9rem; }
+    .amount { display: block; margin: 8px 0 5px; font-size: clamp(2.5rem, 9vw, 4rem); line-height: 1; font-weight: 800; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+    .amount-panel small { color: #d8ebe2; }
+    .mini-panel { display: grid; gap: 12px; }
+    .metric { padding: 17px; border: 1px solid var(--line); border-radius: 15px; background: #fbfcfa; }
+    .metric span { display: block; color: var(--muted); font-size: .86rem; }
+    .metric strong { display: block; margin-top: 4px; font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+    .calculation { margin-top: 16px; padding: 16px; border-radius: 14px; background: var(--mint); }
+    .calculation p { margin: 5px 0 0; font-size: .94rem; }
+    .formula { display: block; margin-top: 7px; overflow-wrap: anywhere; font-size: .91rem; font-weight: 700; }
+    .data-note { margin: 12px 0 0; color: var(--muted); font-size: .83rem; }
+    .figure-card { border-left: 5px solid var(--gold); }
+    .figure-value { margin: 12px 0 2px; font-size: clamp(2rem, 8vw, 3.3rem); line-height: 1.05; font-weight: 800; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+    .figure-caption { margin-bottom: 14px; color: var(--muted); }
+    details { border-top: 1px solid var(--line); padding-top: 12px; }
+    summary { width: fit-content; cursor: pointer; color: var(--green-dark); font-weight: 700; }
+    details p { margin: 10px 0 0; font-size: .91rem; }
+    .privacy-copy { color: var(--muted); font-size: .94rem; }
+    .concern-form { display: grid; gap: 10px; }
+    .form-help { margin: -3px 0 3px; color: var(--muted); font-size: .86rem; }
+    .button { min-height: 48px; width: fit-content; padding: 10px 17px; border: 0; border-radius: 11px; background: var(--green); color: #fff; cursor: pointer; font-weight: 750; }
+    .button:hover { background: var(--green-dark); }
+    .button.secondary { border: 1px solid #8ca197; background: #fff; color: var(--green-dark); }
+    .button.secondary:hover { background: var(--mint); }
+    .saved-list { display: grid; gap: 12px; margin-top: 20px; }
+    .saved-list:empty { display: none; }
+    .saved-item { padding: 14px; border: 1px solid var(--line); border-radius: 13px; background: #fbfcfa; }
+    .saved-meta { color: var(--muted); font-size: .83rem; }
+    .saved-message { margin: 7px 0 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .footer { border-top: 1px solid var(--line); background: #edf2ed; color: var(--muted); font-size: .82rem; }
+    .footer-inner { padding: 18px 0 24px; }
+    .noscript { margin: 16px; padding: 14px; background: var(--warning-bg); }
+    @media (max-width: 620px) {
+      body { font-size: 16px; }
+      .topbar-inner, main, .footer-inner { width: min(100% - 24px, 940px); }
+      .topbar-inner { min-height: 62px; }
+      .top-note { max-width: 115px; text-align: right; font-size: .76rem; line-height: 1.25; }
+      main { padding-top: 27px; }
+      .section-heading { display: grid; }
+      .week-control { width: 100%; }
+      .payout-hero { grid-template-columns: 1fr; }
+      .amount-panel { min-height: 160px; }
+      .mini-panel { grid-template-columns: 1fr 1fr; }
+      .metric { padding: 14px; }
+      .button { width: 100%; }
+    }
+    @media (max-width: 360px) {
+      .mini-panel { grid-template-columns: 1fr; }
+      .card { padding: 16px; }
+      .top-note { max-width: 95px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
+  </style>
+</head>
 <body>
-<h1>Sciar Tips</h1>
-<p id="check"></p>
-<!-- The pilot data, loaded as JavaScript so this page also works when opened straight from your disk. -->
-<script src="data/payouts.js"></script>
-<script src="data/takings.js"></script>
-<script>
-  // PAYOUTS and TAKINGS are arrays of rows; every value is a string, as in the CSV. Replace this page with your build.
-  document.getElementById("check").textContent =
-    "Data loaded: " + PAYOUTS.length + " payout rows, " + TAKINGS.length + " takings rows.";
-</script>
-</body></html>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="app.html" aria-label="Sciar Tips staff view"><span class="brand-mark" aria-hidden="true">S</span>Sciar Tips</a>
+      <span class="top-note">Staff view · teaching case</span>
+    </div>
+  </header>
+
+  <main>
+    <p class="eyebrow">Your weekly tip summary</p>
+    <h1>Hello, Rafael</h1>
+    <p class="intro">Here is your recorded payout and how the weekly split was calculated. This view shows one staff member at a time and keeps colleagues’ individual payout figures off the screen.</p>
+
+    <div class="notice" role="note"><strong>Fictional case demo.</strong> This page is a static teaching prototype, not an authenticated payroll service. It is fixed to Rafael and does not show colleagues’ personal payout figures. Do not deploy this page with real payroll data without server-side authentication and access controls.</div>
+    <div id="data-status" class="status" role="status" aria-live="polite">Loading the local case data…</div>
+
+    <section class="card" aria-labelledby="payout-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Your record</p>
+          <h2 id="payout-heading">Weekly payout</h2>
+          <p id="week-date">Loading week…</p>
+        </div>
+        <div class="week-control">
+          <label for="week-select">Choose a pilot week</label>
+          <select id="week-select" disabled></select>
+        </div>
+      </div>
+
+      <div class="payout-hero" aria-live="polite">
+        <div class="amount-panel">
+          <span class="label">Your recorded tip payout</span>
+          <strong class="amount" id="payout-amount">—</strong>
+          <small>Recorded in the supplied payout data</small>
+        </div>
+        <div class="mini-panel">
+          <div class="metric"><span>Hours worked</span><strong id="hours-worked">—</strong></div>
+          <div class="metric"><span>After 23:00 (no points)</span><strong id="hours-late">—</strong></div>
+          <div class="metric"><span>Eligible hours</span><strong id="hours-eligible">—</strong></div>
+          <div class="metric"><span>Your points</span><strong id="your-points">—</strong></div>
+        </div>
+      </div>
+      <div class="calculation">
+        <strong>How your payout is calculated</strong>
+        <p id="calculation-copy">The weekly tip pool is shared using role points for eligible hours.</p>
+        <span id="formula" class="formula"></span>
+        <p class="data-note" id="payout-provenance"></p>
+      </div>
+      <p class="data-note">The rule shown is the rule documented for this fictional Halloran’s pilot. Service charges are separate from the card-tip pool.</p>
+    </section>
+
+    <section class="card figure-card" aria-labelledby="hidden-figure-heading">
+      <p class="eyebrow">Pilot data · observed</p>
+      <h2 id="hidden-figure-heading">Service charges recorded separately</h2>
+      <p class="figure-value" id="service-total">—</p>
+      <p class="figure-caption" id="service-caption">Loading aggregate…</p>
+      <details>
+        <summary>See the source and calculation</summary>
+        <p id="service-method"></p>
+        <p class="data-note">This reports what the supplied system data records. It does not determine whether the handling of a service charge is legally or otherwise appropriate.</p>
+      </details>
+    </section>
+
+    <section class="card" aria-labelledby="concern-heading">
+      <p class="eyebrow">Private local note · demo only</p>
+      <h2 id="concern-heading">Record a concern</h2>
+      <p class="privacy-copy">You can write a concern and save a copy in this browser so you can view it again. It stays with this browser profile because the pack provides no independent concern-handling service; it is not sent to Sciar, Halloran’s, or a manager. That limits unintended disclosure while leaving you a record to revisit. Anyone with access to this browser profile or device may be able to view the saved note.</p>
+      <form id="concern-form" class="concern-form">
+        <label for="concern-text">Your concern</label>
+        <textarea id="concern-text" name="concern" maxlength="1500" required aria-describedby="concern-help" placeholder="Write your concern here"></textarea>
+        <p id="concern-help" class="form-help">Up to 1,500 characters. Do not include information you do not want stored in this browser.</p>
+        <button class="button" type="submit">Save concern on this device</button>
+      </form>
+      <div id="concern-status" class="status" role="status" aria-live="polite" hidden></div>
+      <div id="saved-list" class="saved-list" aria-label="Your saved concerns"></div>
+      <p id="storage-note" class="data-note">Saved entries remain in this browser’s local storage until removed here or browser data is cleared.</p>
+    </section>
+  </main>
+  <footer class="footer"><div class="footer-inner">Fictional teaching case (H9LOCHFFT, NCI). Figures come from the supplied case files and are shown with their calculation method.</div></footer>
+
+  <noscript><div class="noscript">JavaScript must be enabled to calculate and display this local case data.</div></noscript>
+  <script>
+    (() => {
+      'use strict';
+      const ownStaffId = 'S12';
+      const storageKey = 'sciarTipsDemoConcerns_v1';
+      const roleRates = {
+        'floor manager': 1.5,
+        'server': 1,
+        'bar': 1,
+        'chef': 0.5,
+        'kitchen porter': 0.25
+      };
+      const el = (id) => document.getElementById(id);
+      const status = el('data-status');
+      let payoutRows = [];
+      let takingsRows = [];
+
+      function parseCsv(text) {
+        const rows = [];
+        let row = [], field = '', quoted = false;
+        text = text.replace(/^\uFEFF/, '');
+        for (let i = 0; i < text.length; i += 1) {
+          const ch = text[i];
+          if (quoted) {
+            if (ch === '"' && text[i + 1] === '"') { field += '"'; i += 1; }
+            else if (ch === '"') quoted = false;
+            else field += ch;
+          } else if (ch === '"') quoted = true;
+          else if (ch === ',') { row.push(field); field = ''; }
+          else if (ch === '\n') { row.push(field.replace(/\r$/, '')); rows.push(row); row = []; field = ''; }
+          else field += ch;
+        }
+        if (field.length || row.length) { row.push(field.replace(/\r$/, '')); rows.push(row); }
+        if (rows.length < 2) throw new Error('CSV has no data rows.');
+        const headers = rows.shift();
+        return rows.filter((r) => r.some((v) => v !== '')).map((r) => Object.fromEntries(headers.map((h, i) => [h, r[i] ?? ''])));
+      }
+
+      function loadScript(src, globalName) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = src;
+          script.onload = () => {
+            let value = window[globalName];
+            // The supplied browser data files use top-level const declarations,
+            // which are global lexical bindings rather than window properties.
+            if (!Array.isArray(value) && globalName === 'STAFF_VIEW_DATA') value = STAFF_VIEW_DATA;
+            if (!Array.isArray(value) && globalName === 'TAKINGS') value = TAKINGS;
+            resolve(value);
+          };
+          script.onerror = () => reject(new Error(`Could not load ${src}`));
+          document.head.appendChild(script);
+        });
+      }
+
+      async function loadTable(csvPath, fallbackPath, globalName) {
+        try {
+          const response = await fetch(csvPath, { cache: 'no-store' });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return { rows: parseCsv(await response.text()), source: csvPath };
+        } catch (csvError) {
+          const backup = await loadScript(fallbackPath, globalName);
+          if (!Array.isArray(backup)) throw csvError;
+          return { rows: backup, source: fallbackPath + ' (local CSV mirror)' };
+        }
+      }
+
+      function number(row, key) {
+        const value = Number(row[key]);
+        if (!Number.isFinite(value)) throw new Error(`Invalid number in ${key}.`);
+        return value;
+      }
+      function money(value) {
+        return new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(value);
+      }
+      function roundCents(value) { return Math.round((value + Number.EPSILON) * 100) / 100; }
+      function esc(value) {
+        return String(value).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+      }
+      function announce(message, kind = '') {
+        const node = el('concern-status');
+        node.hidden = false;
+        node.className = `status ${kind}`.trim();
+        node.textContent = message;
+      }
+
+      function validatePayoutRows(rows) {
+        if (!Array.isArray(rows) || rows.length !== 12) throw new Error('Expected 12 weekly rows for the selected staff view.');
+        const seen = new Set();
+        for (const row of rows) {
+          if (row.staff_id !== ownStaffId) throw new Error('The staff-view data contains an unexpected staff record.');
+          if (seen.has(String(row.week))) throw new Error('Duplicate week in the staff-view data.');
+          seen.add(String(row.week));
+          const count = number(row, 'week_staff_count');
+          if (count < 3) throw new Error('A weekly denominator group is smaller than the privacy minimum.');
+          if (!(number(row, 'week_total_points') > 0)) throw new Error('Weekly points total must be positive.');
+          const hours = number(row, 'hours');
+          const late = number(row, 'hours_after_2300');
+          const rate = roleRates[row.role];
+          if (!Number.isFinite(rate) || hours < late || late < 0) throw new Error('Invalid role or hours in payout data.');
+          if (number(row, 'points_per_hour') !== rate) throw new Error(`Role rate does not match the documented rule in week ${row.week}.`);
+          if (number(row, 'points') < 0 || number(row, 'week_pool_eur') < 0) throw new Error('Negative points or pool in payout data.');
+          const pointCheck = rate * (hours - late);
+          if (Math.abs(pointCheck - number(row, 'points')) > 0.0051) throw new Error(`Recorded points do not match the role-hours rule in week ${row.week}.`);
+          const calcPayout = roundCents(number(row, 'week_pool_eur') * number(row, 'points') / number(row, 'week_total_points'));
+          if (Math.abs(calcPayout - number(row, 'tip_payout_eur')) > 0.01001) throw new Error(`Calculated payout does not match the recorded amount in week ${row.week}.`);
+        }
+        return [...rows].sort((a, b) => Number(a.week) - Number(b.week));
+      }
+
+      function showWeek(row) {
+        const hours = number(row, 'hours');
+        const late = number(row, 'hours_after_2300');
+        const eligible = hours - late;
+        const ownPoints = number(row, 'points');
+        const pool = number(row, 'week_pool_eur');
+        const teamPoints = number(row, 'week_total_points');
+        const calculatedPayout = roundCents(pool * ownPoints / teamPoints);
+        const recordedPayout = number(row, 'tip_payout_eur');
+        const calcCopy = el('calculation-copy');
+        const formula = el('formula');
+        el('week-date').textContent = `Week ${row.week} · week beginning ${row.week_start}`;
+        el('payout-amount').textContent = money(recordedPayout);
+        el('hours-worked').textContent = `${hours.toFixed(1)} h`;
+        el('hours-late').textContent = `${late.toFixed(1)} h`;
+        el('hours-eligible').textContent = `${eligible.toFixed(1)} h`;
+        el('your-points').textContent = `${ownPoints.toFixed(2)} points`;
+        calcCopy.textContent = `Your role is ${row.role}, worth ${number(row, 'points_per_hour').toFixed(2)} points per eligible hour. Eligible hours: ${hours.toFixed(1)} total − ${late.toFixed(1)} after 23:00 = ${eligible.toFixed(1)}. Your points are shown as recorded in the source file; it does not state the precision rule used for points.`;
+        formula.textContent = `${money(pool)} weekly card-tip pool × ${ownPoints.toFixed(2)} of your points ÷ ${teamPoints.toFixed(2)} total staff points = ${money(calculatedPayout)} (rounded to cents).`;
+        const diff = Math.abs(calculatedPayout - recordedPayout);
+        if (diff > 0.01001) {
+          calcCopy.textContent += ' The recomputed amount does not match the recorded payout; please treat this row as a data discrepancy.';
+          formula.textContent += ` Recorded payout: ${money(recordedPayout)}.`;
+          status.className = 'status error';
+          status.textContent = `Data check: week ${row.week} calculated payout differs from the recorded value.`;
+          status.hidden = false;
+        }
+        el('payout-provenance').textContent = `Observed source: data/payouts.csv, staff_id = ${row.staff_id}, week = ${row.week} (1 staff row). Total staff points are aggregated from all ${row.week_staff_count} staff rows for that week; only the aggregate is used here. Calculation uses the documented split rule and recorded points, then rounds the payout to cents. The source does not specify a precision rule for points.`;
+      }
+
+      function showHiddenFigure(rows, source) {
+        const houses = rows.filter((r) => r.service_charge_paid_to === 'house');
+        if (!houses.length) throw new Error('No service-charge rows marked house were found.');
+        const total = houses.reduce((sum, row) => sum + number(row, 'service_charge_eur'), 0);
+        const dates = houses.map((r) => r.date).sort();
+        el('service-total').textContent = money(roundCents(total));
+        el('service-caption').textContent = `Recorded as paid to Halloran’s across ${houses.length} opening-day rows, ${dates[0]} to ${dates[dates.length - 1]}.`;
+        el('service-method').textContent = `Source: data/takings.csv (${rows.length} observed opening-day rows). Filter: service_charge_paid_to = house; included ${houses.length} rows with recorded service-charge values. Calculation: sum service_charge_eur across those rows = ${money(roundCents(total))}. The data dictionary defines “house” as Halloran’s. Loaded via ${source}.`;
+      }
+
+      function readConcerns() {
+        const raw = localStorage.getItem(storageKey);
+        if (!raw) return [];
+        const value = JSON.parse(raw);
+        if (!Array.isArray(value)) throw new Error('Saved concern data is invalid.');
+        return value.filter((item) => item && typeof item.message === 'string' && typeof item.createdAt === 'string');
+      }
+      function renderConcerns() {
+        try {
+          const entries = readConcerns();
+          el('saved-list').innerHTML = entries.length ? entries.map((item) => `<article class="saved-item"><div class="saved-meta">Saved on this browser · ${esc(new Date(item.createdAt).toLocaleString())}</div><p class="saved-message">${esc(item.message)}</p><button class="button secondary" type="button" data-remove="${esc(item.id)}">Remove this local record</button></article>`).join('') : '<p class="data-note">No concern is saved in this browser yet.</p>';
+          el('saved-list').querySelectorAll('[data-remove]').forEach((button) => button.addEventListener('click', () => removeConcern(button.dataset.remove)));
+        } catch (error) {
+          el('saved-list').textContent = 'Saved concerns could not be read from this browser’s local storage.';
+          el('storage-note').textContent = error.message;
+        }
+      }
+      function removeConcern(id) {
+        try {
+          const remaining = readConcerns().filter((item) => item.id !== id);
+          localStorage.setItem(storageKey, JSON.stringify(remaining));
+          renderConcerns();
+          announce('The local record was removed from this browser.', 'success');
+        } catch (error) { announce(`Could not remove the local record: ${error.message}`, 'error'); }
+      }
+
+      el('concern-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const message = el('concern-text').value.trim();
+        if (!message) { announce('Write a concern before saving it.', 'error'); el('concern-text').focus(); return; }
+        try {
+          const entries = readConcerns();
+          const entry = { id: (globalThis.crypto && crypto.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`, createdAt: new Date().toISOString(), message };
+          entries.unshift(entry);
+          localStorage.setItem(storageKey, JSON.stringify(entries));
+          el('concern-text').value = '';
+          renderConcerns();
+          announce('Your concern was saved in this browser only. It was not sent to Sciar or management.', 'success');
+        } catch (error) { announce(`The concern was not saved in this browser: ${error.message}`, 'error'); }
+      });
+
+      async function init() {
+        try {
+          const [staffTable, takingsTable] = await Promise.all([
+            loadTable('data/staff-view.csv', 'data/staff-view.js', 'STAFF_VIEW_DATA'),
+            loadTable('data/takings.csv', 'data/takings.js', 'TAKINGS')
+          ]);
+          payoutRows = validatePayoutRows(staffTable.rows);
+          takingsRows = takingsTable.rows;
+          const select = el('week-select');
+          select.innerHTML = payoutRows.map((row) => `<option value="${esc(row.week)}">Week ${esc(row.week)} · ${esc(row.week_start)}</option>`).join('');
+          select.value = String(payoutRows[payoutRows.length - 1].week);
+          select.disabled = false;
+          select.addEventListener('change', () => {
+            const row = payoutRows.find((item) => String(item.week) === select.value);
+            if (row) showWeek(row);
+          });
+          showWeek(payoutRows[payoutRows.length - 1]);
+          showHiddenFigure(takingsRows, `${staffTable.source} and ${takingsTable.source}`);
+          status.className = 'status success';
+          status.textContent = `Data loaded: ${payoutRows.length} personal weekly rows and ${takingsRows.length} opening-day rows. The view is fixed to staff_id S12.`;
+          status.hidden = false;
+        } catch (error) {
+          status.className = 'status error';
+          status.textContent = `Case data could not be loaded or checked: ${error.message} Check that the data folder is beside app.html.`;
+          status.hidden = false;
+          el('week-select').disabled = true;
+        }
+        renderConcerns();
+      }
+      init();
+    })();
+  </script>
+</body>
+</html>
