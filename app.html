@@ -32,6 +32,8 @@
     .brand { color: white; text-decoration: none; font-size: 1.08rem; font-weight: 750; letter-spacing: .01em; }
     .brand-mark { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-right: 9px; border-radius: 11px; background: var(--gold); color: #102821; font-weight: 900; }
     .top-note { color: #d3e4dc; font-size: .87rem; }
+    .language-control { display: flex; align-items: center; gap: 8px; color: #fff; font-size: .82rem; }
+    .language-control select { width: auto; min-width: 130px; min-height: 42px; padding: 5px 28px 5px 9px; font-size: .9rem; }
     main { padding: 38px 0 58px; }
     .eyebrow { margin: 0 0 7px; color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
     h1, h2, h3, p { margin-top: 0; }
@@ -92,7 +94,7 @@
     @media (max-width: 620px) {
       body { font-size: 16px; }
       .topbar-inner, main, .footer-inner { width: min(100% - 24px, 940px); }
-      .topbar-inner { min-height: 62px; }
+      .topbar-inner { min-height: 62px; flex-wrap: wrap; padding: 9px 0; }
       .top-note { max-width: 115px; text-align: right; font-size: .76rem; line-height: 1.25; }
       main { padding-top: 27px; }
       .section-heading { display: grid; }
@@ -114,92 +116,102 @@
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="app.html" aria-label="Sciar Tips staff view"><span class="brand-mark" aria-hidden="true">S</span>Sciar Tips</a>
-      <span class="top-note">Staff view · teaching case</span>
+      <a class="brand" href="app.html" aria-label="Sciar Tips staff view" data-i18n-aria="brandLabel"><span class="brand-mark" aria-hidden="true">S</span>Sciar Tips</a>
+      <div class="language-control"><label id="language-label" for="language-select">Language</label><select id="language-select" aria-labelledby="language-label"><option value="en">English</option><option value="pl">Polski</option><option value="ro">Română</option><option value="fr">Français</option><option value="es">Español</option><option value="pt">Português</option></select></div>
     </div>
   </header>
 
   <main>
-    <p class="eyebrow">Your weekly tip summary</p>
-    <h1>Hello, Rafael</h1>
-    <p class="intro">Here is your recorded payout and how the weekly split was calculated. This view shows one staff member at a time and keeps colleagues’ individual payout figures off the screen.</p>
+    <p class="eyebrow" data-i18n="weeklySummary">Your weekly tip summary</p>
+    <h1 data-i18n="greeting">Hello, Rafael</h1>
+    <p class="intro" data-i18n="intro">Here is your recorded payout and how the weekly split was calculated. This view shows one staff member at a time and keeps colleagues’ individual payout figures off the screen.</p>
 
-    <div class="notice" role="note"><strong>Fictional case demo.</strong> This page is a static teaching prototype, not an authenticated payroll service. It is fixed to Rafael and does not show colleagues’ personal payout figures. Do not deploy this page with real payroll data without server-side authentication and access controls.</div>
-    <div id="data-status" class="status" role="status" aria-live="polite">Loading the local case data…</div>
+    <div class="notice" role="note"><strong data-i18n="fictionalDemo">Fictional case demo.</strong> <span data-i18n="demoWarning">This page is a static teaching prototype, not an authenticated payroll service. It is fixed to Rafael and does not show colleagues’ personal payout figures. Do not deploy this page with real payroll data without server-side authentication and access controls.</span></div>
+    <div id="data-status" class="status" role="status" aria-live="polite" data-i18n="loading">Loading the local case data…</div>
 
     <section class="card" aria-labelledby="payout-heading">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Your record</p>
-          <h2 id="payout-heading">Weekly payout</h2>
+          <p class="eyebrow" data-i18n="yourRecord">Your record</p>
+          <h2 id="payout-heading" data-i18n="weeklyPayout">Weekly payout</h2>
           <p id="week-date">Loading week…</p>
         </div>
         <div class="week-control">
-          <label for="week-select">Choose a pilot week</label>
+          <label for="week-select" data-i18n="chooseWeek">Choose a pilot week</label>
           <select id="week-select" disabled></select>
         </div>
       </div>
 
       <div class="payout-hero" aria-live="polite">
         <div class="amount-panel">
-          <span class="label">Your recorded tip payout</span>
+          <span class="label" data-i18n="recordedPayout">Your recorded tip payout</span>
           <strong class="amount" id="payout-amount">—</strong>
-          <small>Recorded in the supplied payout data</small>
+          <small data-i18n="recordedData">Recorded in the supplied payout data</small>
         </div>
         <div class="mini-panel">
-          <div class="metric"><span>Hours worked</span><strong id="hours-worked">—</strong></div>
-          <div class="metric"><span>After 23:00 (no points)</span><strong id="hours-late">—</strong></div>
-          <div class="metric"><span>Eligible hours</span><strong id="hours-eligible">—</strong></div>
-          <div class="metric"><span>Your points</span><strong id="your-points">—</strong></div>
+          <div class="metric"><span data-i18n="hoursWorked">Hours worked</span><strong id="hours-worked">—</strong></div>
+          <div class="metric"><span data-i18n="lateHours">After 23:00 (no points)</span><strong id="hours-late">—</strong></div>
+          <div class="metric"><span data-i18n="eligibleHours">Eligible hours</span><strong id="hours-eligible">—</strong></div>
+          <div class="metric"><span data-i18n="yourPoints">Your points</span><strong id="your-points">—</strong></div>
         </div>
       </div>
       <div class="calculation">
-        <strong>How your payout is calculated</strong>
-        <p id="calculation-copy">The weekly tip pool is shared using role points for eligible hours.</p>
+        <strong data-i18n="calculationTitle">How your payout is calculated</strong>
+        <p id="calculation-copy" data-i18n="calculationIntro">The weekly tip pool is shared using role points for eligible hours.</p>
         <span id="formula" class="formula"></span>
         <p class="data-note" id="payout-provenance"></p>
       </div>
-      <p class="data-note">The rule shown is the rule documented for this fictional Halloran’s pilot. Service charges are separate from the card-tip pool.</p>
+      <p class="data-note" data-i18n="ruleNote">The rule shown is the rule documented for this fictional Halloran’s pilot. Service charges are separate from the card-tip pool.</p>
     </section>
 
     <section class="card figure-card" aria-labelledby="hidden-figure-heading">
-      <p class="eyebrow">Pilot data · observed</p>
-      <h2 id="hidden-figure-heading">Service charges recorded separately</h2>
+      <p class="eyebrow" data-i18n="observedData">Pilot data · observed</p>
+      <h2 id="hidden-figure-heading" data-i18n="serviceTitle">Service charges recorded separately</h2>
       <p class="figure-value" id="service-total">—</p>
-      <p class="figure-caption" id="service-caption">Loading aggregate…</p>
+      <p class="figure-caption" id="service-caption" data-i18n="loadingAggregate">Loading aggregate…</p>
       <details>
-        <summary>See the source and calculation</summary>
+        <summary data-i18n="sourceCalculation">See the source and calculation</summary>
         <p id="service-method"></p>
-        <p class="data-note">This reports what the supplied system data records. It does not determine whether the handling of a service charge is legally or otherwise appropriate.</p>
+        <p class="data-note" data-i18n="serviceDisclaimer">This reports what the supplied system data records. It does not determine whether the handling of a service charge is legally or otherwise appropriate.</p>
       </details>
     </section>
 
     <section class="card" aria-labelledby="concern-heading">
-      <p class="eyebrow">Local note · demo only</p>
-      <h2 id="concern-heading">Record a concern</h2>
-      <p class="privacy-copy"><strong>Demo limitation:</strong> this form saves a note in this browser only. It does not send the note to Sciar, Halloran’s, or a manager, so Sciar cannot use it to improve the product. The case pack provides no submission service or named recipient. Anyone with access to this browser profile or device may be able to read the saved note.</p>
-      <p class="privacy-copy">Only enter what is needed to describe the issue. Avoid names, contact details, or other identifying or sensitive information unless it is essential to explain the concern. The note is saved only when you choose Save; it is not uploaded by this page.</p>
+      <p class="eyebrow" data-i18n="localDemo">Local note · demo only</p>
+      <h2 id="concern-heading" data-i18n="concernTitle">Record a concern</h2>
+      <p class="privacy-copy"><strong data-i18n="demoLimitation">Demo limitation:</strong> <span data-i18n="concernDisclosure">this form saves a note in this browser only. It does not send the note to Sciar, Halloran’s, or a manager, so Sciar cannot use it to improve the product. The case pack provides no submission service or named recipient. Anyone with access to this browser profile or device may be able to read the saved note.</span></p>
+      <p class="privacy-copy" data-i18n="minimiseNotice">Only enter what is needed to describe the issue. Avoid names, contact details, or other identifying or sensitive information unless it is essential to explain the concern. The note is saved only when you choose Save; it is not uploaded by this page.</p>
       <form id="concern-form" class="concern-form">
-        <label for="concern-text">Your concern</label>
-        <textarea id="concern-text" name="concern" maxlength="1500" required aria-describedby="concern-help" placeholder="Write your concern here"></textarea>
-        <p id="concern-help" class="form-help">Up to 1,500 characters. This demo has no expiry setting: remove the note here or clear this browser’s site data when you no longer need it.</p>
-        <button class="button" type="submit">Save concern on this device</button>
+        <label for="concern-text" data-i18n="yourConcern">Your concern</label>
+        <textarea id="concern-text" name="concern" maxlength="1500" required aria-describedby="concern-help" placeholder="Write your concern here" data-i18n-placeholder="concernPlaceholder"></textarea>
+        <p id="concern-help" class="form-help" data-i18n="retentionNotice">Up to 1,500 characters. This demo has no expiry setting: remove the note here or clear this browser’s site data when you no longer need it.</p>
+        <button class="button" type="submit" data-i18n="saveConcern">Save concern on this device</button>
       </form>
       <div id="concern-status" class="status" role="status" aria-live="polite" hidden></div>
-      <div id="saved-list" class="saved-list" aria-label="Your saved concerns"></div>
-      <button class="button secondary" id="clear-concerns" type="button">Delete all saved notes from this browser</button>
-      <p id="storage-note" class="data-note">Saved entries remain in this browser’s local storage until deleted here or browser data is cleared. This is a demonstration, not a monitored complaint or product-feedback channel.</p>
-      <p class="data-note"><strong>Product feedback:</strong> no live route to Sciar is configured in this project. A real product should offer a separate, clearly explained optional feedback route, with a named recipient, purpose, access limits, retention period, and user-facing privacy information.</p>
+      <div id="saved-list" class="saved-list" aria-label="Your saved concerns" data-i18n-aria="savedConcerns"></div>
+      <button class="button secondary" id="clear-concerns" type="button" data-i18n="deleteAll">Delete all saved notes from this browser</button>
+      <p id="storage-note" class="data-note" data-i18n="storageNotice">Saved entries remain in this browser’s local storage until deleted here or browser data is cleared. This is a demonstration, not a monitored complaint or product-feedback channel.</p>
+      <p class="data-note"><strong data-i18n="productFeedback">Product feedback:</strong> <span data-i18n="feedbackNotice">no live route to Sciar is configured in this project. A real product should offer a separate, clearly explained optional feedback route, with a named recipient, purpose, access limits, retention period, and user-facing privacy information.</span></p>
     </section>
   </main>
-  <footer class="footer"><div class="footer-inner">Fictional teaching case (H9LOCHFFT, NCI). Figures come from the supplied case files and are shown with their calculation method.</div></footer>
+  <footer class="footer"><div class="footer-inner" data-i18n="footer">Fictional teaching case (H9LOCHFFT, NCI). Figures come from the supplied case files and are shown with their calculation method.</div></footer>
 
-  <noscript><div class="noscript">JavaScript must be enabled to calculate and display this local case data.</div></noscript>
+  <noscript><div class="noscript" data-i18n="noScript">JavaScript must be enabled to calculate and display this local case data.</div></noscript>
   <script>
     (() => {
       'use strict';
       const ownStaffId = 'S12';
       const storageKey = 'sciarTipsDemoConcerns_v1';
+      const messages = {
+        en: {language:'Language',weeklySummary:'Your weekly tip summary',greeting:'Hello, Rafael',intro:'Here is your recorded payout and how the weekly split was calculated. This view shows one staff member at a time and keeps colleagues’ individual payout figures off the screen.',fictionalDemo:'Fictional case demo.',demoWarning:'This page is a static teaching prototype, not an authenticated payroll service. It is fixed to Rafael and does not show colleagues’ personal payout figures. Do not deploy this page with real payroll data without server-side authentication and access controls.',loading:'Loading the local case data…',yourRecord:'Your record',weeklyPayout:'Weekly payout',chooseWeek:'Choose a pilot week',recordedPayout:'Your recorded tip payout',recordedData:'Recorded in the supplied payout data',hoursWorked:'Hours worked',lateHours:'After 23:00 (no points)',eligibleHours:'Eligible hours',yourPoints:'Your points',calculationTitle:'How your payout is calculated',calculationIntro:'The weekly tip pool is shared using role points for eligible hours.',ruleNote:'The rule shown is the rule documented for this fictional Halloran’s pilot. Service charges are separate from the card-tip pool.',observedData:'Pilot data · observed',serviceTitle:'Service charges recorded separately',loadingAggregate:'Loading aggregate…',sourceCalculation:'See the source and calculation',serviceDisclaimer:'This reports what the supplied system data records. It does not determine whether the handling of a service charge is legally or otherwise appropriate.',localDemo:'Local note · demo only',concernTitle:'Record a concern',demoLimitation:'Demo limitation:',concernDisclosure:'this form saves a note in this browser only. It does not send the note to Sciar, Halloran’s, or a manager, so Sciar cannot use it to improve the product. The case pack provides no submission service or named recipient. Anyone with access to this browser profile or device may be able to read the saved note.',minimiseNotice:'Only enter what is needed to describe the issue. Avoid names, contact details, or other identifying or sensitive information unless it is essential to explain the concern. The note is saved only when you choose Save; it is not uploaded by this page.',yourConcern:'Your concern',concernPlaceholder:'Write your concern here',retentionNotice:'Up to 1,500 characters. This demo has no expiry setting: remove the note here or clear this browser’s site data when you no longer need it.',saveConcern:'Save concern on this device',savedConcerns:'Your saved concerns',deleteAll:'Delete all saved notes from this browser',storageNotice:'Saved entries remain in this browser’s local storage until deleted here or browser data is cleared. This is a demonstration, not a monitored complaint or product-feedback channel.',productFeedback:'Product feedback:',feedbackNotice:'no live route to Sciar is configured in this project. A real product should offer a separate, clearly explained optional feedback route, with a named recipient, purpose, access limits, retention period, and user-facing privacy information.',footer:'Fictional teaching case (H9LOCHFFT, NCI). Figures come from the supplied case files and are shown with their calculation method.',week:'Week',weekBeginning:'week beginning',hours:'h',points:'points',after:'after 23:00',source:'Source',filter:'Filter',included:'included',rows:'rows',calculation:'Calculation',sum:'sum',recordedAs:'Recorded as paid to Halloran’s across',openingRows:'opening-day rows',noConcern:'No concern is saved in this browser yet.',remove:'Remove this local record',savedOn:'Saved on this browser',localRemoved:'The local record was removed from this browser.',allDeleted:'All concern notes saved by this demo were deleted from this browser.',saveSuccess:'Your concern was saved in this browser only. It was not sent to Sciar or management.',writeConcern:'Write a concern before saving it.',saveError:'The concern was not saved in this browser:',removeError:'Could not remove the local record:',clearError:'Could not delete saved notes:',readError:'Saved concerns could not be read from this browser’s local storage.',invalidData:'Case data could not be loaded or checked:',checkData:'Check that the data folder is beside app.html.',dataLoaded:'Data loaded:',personalRows:'personal weekly rows and',openingDayRows:'opening-day rows. The view is fixed to staff_id S12.',couldNotRead:'Could not load',csvNoData:'CSV has no data rows.',missingConcern:'Write a concern before saving it.',dataMismatch:'The recalculated amount does not match the recorded payout; treat this as a data discrepancy.',dataCheck:'Data check:',observedSource:'Observed source:',teamPoints:'Total staff points come from',loadedVia:'Loaded via'},
+        pl: {language:'Język',weeklySummary:'Twoje tygodniowe podsumowanie napiwków',greeting:'Cześć, Rafael',intro:'Tutaj znajdziesz zapis wypłaty i sposób obliczenia tygodniowego podziału. Widok pokazuje dane jednej osoby i nie ujawnia indywidualnych wypłat współpracowników.',fictionalDemo:'Demonstracja fikcyjnego przypadku.',demoWarning:'To statyczny prototyp edukacyjny, a nie uwierzytelniona usługa płacowa. Widok dotyczy Rafaela i nie pokazuje indywidualnych wypłat współpracowników. Nie używaj tej strony z prawdziwymi danymi płacowymi bez uwierzytelniania i kontroli dostępu po stronie serwera.',loading:'Wczytywanie lokalnych danych…',yourRecord:'Twoje dane',weeklyPayout:'Wypłata tygodniowa',chooseWeek:'Wybierz tydzień pilotażu',recordedPayout:'Zapisana wypłata napiwków',recordedData:'Zapisano w dostarczonych danych o wypłatach',hoursWorked:'Przepracowane godziny',lateHours:'Po 23:00 (bez punktów)',eligibleHours:'Godziny uwzględnione',yourPoints:'Twoje punkty',calculationTitle:'Jak obliczono Twoją wypłatę',calculationIntro:'Tygodniowa pula napiwków jest dzielona według punktów za kwalifikujące się godziny.',ruleNote:'Pokazana zasada jest opisana dla fikcyjnego pilotażu Halloran’s. Opłaty serwisowe są oddzielone od puli napiwków kartowych.',observedData:'Dane pilotażu · zaobserwowane',serviceTitle:'Opłaty serwisowe zapisane oddzielnie',loadingAggregate:'Wczytywanie sumy…',sourceCalculation:'Zobacz źródło i obliczenie',serviceDisclaimer:'To przedstawia zapis w dostarczonych danych systemowych. Nie rozstrzyga, czy sposób obsługi opłaty serwisowej jest zgodny z prawem lub właściwy.',localDemo:'Notatka lokalna · tylko demonstracja',concernTitle:'Zapisz zgłoszenie',demoLimitation:'Ograniczenie demonstracji:',concernDisclosure:'formularz zapisuje notatkę tylko w tej przeglądarce. Nie wysyła jej do Sciar, Halloran’s ani kierownika, więc Sciar nie może wykorzystać jej do ulepszenia produktu. Pakiet przypadku nie zawiera usługi zgłoszeń ani wskazanego odbiorcy. Każda osoba mająca dostęp do tego profilu przeglądarki lub urządzenia może przeczytać zapisaną notatkę.',minimiseNotice:'Wpisz tylko informacje potrzebne do opisania problemu. Unikaj nazwisk, danych kontaktowych oraz innych danych identyfikujących lub wrażliwych, chyba że są niezbędne. Notatka zostanie zapisana dopiero po wybraniu opcji Zapisz; ta strona jej nie przesyła.',yourConcern:'Twoje zgłoszenie',concernPlaceholder:'Wpisz zgłoszenie',retentionNotice:'Maksymalnie 1500 znaków. Ta demonstracja nie ustawia terminu wygaśnięcia: usuń notatkę tutaj lub wyczyść dane tej strony w przeglądarce, gdy nie będą już potrzebne.',saveConcern:'Zapisz zgłoszenie na tym urządzeniu',savedConcerns:'Twoje zapisane zgłoszenia',deleteAll:'Usuń wszystkie notatki z tej przeglądarki',storageNotice:'Zapisane wpisy pozostają w lokalnej pamięci przeglądarki do ich usunięcia lub wyczyszczenia danych przeglądarki. To demonstracja, a nie monitorowany kanał skarg ani opinii o produkcie.',productFeedback:'Opinie o produkcie:',feedbackNotice:'w tym projekcie nie skonfigurowano działającego kanału kontaktu z Sciar. Prawdziwy produkt powinien mieć oddzielny, jasno opisany i dobrowolny kanał opinii ze wskazanym odbiorcą, celem, ograniczeniami dostępu, okresem przechowywania i informacjami o prywatności.',footer:'Fikcyjny przypadek edukacyjny (H9LOCHFFT, NCI). Dane pochodzą z plików przypadku i przedstawiono sposób ich obliczenia.',week:'Tydzień',weekBeginning:'początek tygodnia',hours:'godz.',points:'punktów',after:'po 23:00',source:'Źródło',filter:'Filtr',included:'uwzględniono',rows:'wierszy',calculation:'Obliczenie',sum:'suma',recordedAs:'Zapisano jako przekazane Halloran’s w',openingRows:'dniach otwarcia',noConcern:'W tej przeglądarce nie zapisano jeszcze zgłoszeń.',remove:'Usuń tę lokalną notatkę',savedOn:'Zapisano w tej przeglądarce',localRemoved:'Usunięto lokalną notatkę z tej przeglądarki.',allDeleted:'Usunięto wszystkie notatki demonstracyjne z tej przeglądarki.',saveSuccess:'Zgłoszenie zapisano tylko w tej przeglądarce. Nie wysłano go do Sciar ani kierownictwa.',writeConcern:'Wpisz zgłoszenie przed zapisaniem.',saveError:'Nie zapisano zgłoszenia w tej przeglądarce:',removeError:'Nie można usunąć lokalnej notatki:',clearError:'Nie można usunąć zapisanych notatek:',readError:'Nie można odczytać zgłoszeń z lokalnej pamięci przeglądarki.',invalidData:'Nie można wczytać ani sprawdzić danych przypadku:',checkData:'Sprawdź, czy folder data znajduje się obok app.html.',dataLoaded:'Wczytano dane:',personalRows:'osobistych wpisów tygodniowych i',openingDayRows:'wpisów dla dni otwarcia. Widok dotyczy staff_id S12.',couldNotRead:'Nie można wczytać',csvNoData:'CSV nie zawiera wierszy danych.',missingConcern:'Wpisz zgłoszenie przed zapisaniem.'},
+        ro: {language:'Limbă',weeklySummary:'Rezumatul săptămânal al bacșișurilor',greeting:'Bună, Rafael',intro:'Aici găsești plata înregistrată și modul de calcul al împărțirii săptămânale. Vizualizarea arată datele unei singure persoane și nu afișează plățile individuale ale colegilor.',fictionalDemo:'Demonstrație de caz fictiv.',demoWarning:'Aceasta este o machetă statică educațională, nu un serviciu de salarizare autentificat. Este configurată pentru Rafael și nu afișează plățile individuale ale colegilor. Nu utiliza această pagină cu date salariale reale fără autentificare și controale de acces pe server.',loading:'Se încarcă datele locale…',yourRecord:'Înregistrarea ta',weeklyPayout:'Plata săptămânală',chooseWeek:'Alege o săptămână pilot',recordedPayout:'Plata ta înregistrată din bacșișuri',recordedData:'Înregistrată în datele de plată furnizate',hoursWorked:'Ore lucrate',lateHours:'După 23:00 (fără puncte)',eligibleHours:'Ore eligibile',yourPoints:'Punctele tale',calculationTitle:'Cum se calculează plata',calculationIntro:'Fondul săptămânal de bacșișuri se împarte folosind punctele rolului pentru orele eligibile.',ruleNote:'Regula afișată este documentată pentru acest pilot fictiv Halloran’s. Taxele de servire sunt separate de fondul bacșișurilor plătite cu cardul.',observedData:'Date pilot · observate',serviceTitle:'Taxele de servire înregistrate separat',loadingAggregate:'Se încarcă totalul…',sourceCalculation:'Vezi sursa și calculul',serviceDisclaimer:'Acestea sunt datele înregistrate de sistemul furnizat. Nu stabilește dacă modul de gestionare a taxei de servire este legal sau adecvat.',localDemo:'Notă locală · doar demonstrație',concernTitle:'Înregistrează o problemă',demoLimitation:'Limitarea demonstrației:',concernDisclosure:'formularul salvează nota doar în acest browser. Nu o trimite către Sciar, Halloran’s sau un manager, astfel că Sciar nu o poate folosi pentru îmbunătățirea produsului. Pachetul de caz nu include un serviciu de transmitere sau un destinatar desemnat. Oricine are acces la acest profil de browser sau dispozitiv poate citi nota salvată.',minimiseNotice:'Introdu doar informațiile necesare pentru a descrie problema. Evită numele, datele de contact și alte informații de identificare sau sensibile, cu excepția cazului în care sunt esențiale. Nota se salvează numai când alegi Salvare; această pagină nu o încarcă.',yourConcern:'Problema ta',concernPlaceholder:'Descrie problema aici',retentionNotice:'Maximum 1.500 de caractere. Această demonstrație nu setează o dată de expirare: șterge nota aici sau datele acestui site din browser când nu mai ai nevoie de ea.',saveConcern:'Salvează problema pe acest dispozitiv',savedConcerns:'Problemele tale salvate',deleteAll:'Șterge toate notele salvate din acest browser',storageNotice:'Înregistrările rămân în memoria locală a browserului până când le ștergi sau ștergi datele browserului. Aceasta este o demonstrație, nu un canal monitorizat pentru reclamații sau feedback despre produs.',productFeedback:'Feedback despre produs:',feedbackNotice:'acest proiect nu are configurat un canal funcțional către Sciar. Un produs real ar trebui să ofere un canal opțional separat și clar explicat, cu destinatar, scop, limite de acces, perioadă de păstrare și informații de confidențialitate pentru utilizator.',footer:'Caz didactic fictiv (H9LOCHFFT, NCI). Valorile provin din fișierele cazului și sunt însoțite de metoda de calcul.',week:'Săptămâna',weekBeginning:'începând cu',hours:'ore',points:'puncte',after:'după 23:00',source:'Sursă',filter:'Filtru',included:'incluse',rows:'rânduri',calculation:'Calcul',sum:'suma',recordedAs:'Înregistrate ca plătite către Halloran’s în',openingRows:'zile de deschidere',noConcern:'Nu există încă nicio problemă salvată în acest browser.',remove:'Șterge această notă locală',savedOn:'Salvată în acest browser',localRemoved:'Nota locală a fost ștearsă din acest browser.',allDeleted:'Toate notele demonstrative au fost șterse din acest browser.',saveSuccess:'Problema a fost salvată doar în acest browser. Nu a fost trimisă către Sciar sau conducere.',writeConcern:'Descrie problema înainte de salvare.',saveError:'Problema nu a putut fi salvată în acest browser:',removeError:'Nota locală nu a putut fi ștearsă:',clearError:'Notele salvate nu au putut fi șterse:',readError:'Problemele salvate nu pot fi citite din memoria locală a browserului.',invalidData:'Datele cazului nu au putut fi încărcate sau verificate:',checkData:'Verifică dacă folderul data este lângă app.html.',dataLoaded:'Date încărcate:',personalRows:'înregistrări săptămânale personale și',openingDayRows:'înregistrări pentru zilele de deschidere. Vizualizarea este fixată la staff_id S12.',couldNotRead:'Nu s-a putut încărca',csvNoData:'CSV-ul nu conține rânduri de date.',missingConcern:'Descrie problema înainte de salvare.'},
+        fr: {language:'Langue',weeklySummary:'Votre récapitulatif hebdomadaire des pourboires',greeting:'Bonjour, Rafael',intro:'Voici le montant enregistré et le calcul du partage hebdomadaire. Cette page affiche les données d’une seule personne et masque les montants individuels des collègues.',fictionalDemo:'Démonstration d’un cas fictif.',demoWarning:'Cette page est un prototype pédagogique statique, et non un service de paie authentifié. Elle est configurée pour Rafael et n’affiche pas les montants individuels des collègues. Ne l’utilisez pas avec de vraies données de paie sans authentification et contrôles d’accès côté serveur.',loading:'Chargement des données locales…',yourRecord:'Votre relevé',weeklyPayout:'Paiement hebdomadaire',chooseWeek:'Choisir une semaine pilote',recordedPayout:'Votre pourboire enregistré',recordedData:'Enregistré dans les données de paiement fournies',hoursWorked:'Heures travaillées',lateHours:'Après 23 h (sans points)',eligibleHours:'Heures admissibles',yourPoints:'Vos points',calculationTitle:'Calcul de votre paiement',calculationIntro:'La cagnotte hebdomadaire est répartie selon les points du poste pour les heures admissibles.',ruleNote:'La règle affichée est celle documentée pour ce pilote fictif Halloran’s. Les frais de service sont distincts de la cagnotte de pourboires par carte.',observedData:'Données du pilote · observées',serviceTitle:'Frais de service enregistrés séparément',loadingAggregate:'Chargement du total…',sourceCalculation:'Voir la source et le calcul',serviceDisclaimer:'Ces données reflètent les enregistrements fournis. Elles ne déterminent pas si le traitement des frais de service est légal ou approprié.',localDemo:'Note locale · démonstration uniquement',concernTitle:'Enregistrer un problème',demoLimitation:'Limite de la démonstration :',concernDisclosure:'ce formulaire enregistre une note dans ce navigateur uniquement. Il ne l’envoie ni à Sciar, ni à Halloran’s, ni à un responsable ; Sciar ne peut donc pas l’utiliser pour améliorer le produit. Le dossier ne fournit aucun service de transmission ni destinataire désigné. Toute personne ayant accès à ce profil de navigateur ou à cet appareil peut lire la note enregistrée.',minimiseNotice:'Saisissez uniquement les informations nécessaires pour décrire le problème. Évitez les noms, coordonnées et autres informations identifiantes ou sensibles, sauf si elles sont indispensables. La note est enregistrée uniquement lorsque vous choisissez Enregistrer ; cette page ne la téléverse pas.',yourConcern:'Votre problème',concernPlaceholder:'Décrivez votre problème ici',retentionNotice:'1 500 caractères maximum. Cette démonstration ne prévoit aucune expiration : supprimez la note ici ou effacez les données de ce site dans le navigateur lorsque vous n’en avez plus besoin.',saveConcern:'Enregistrer sur cet appareil',savedConcerns:'Vos notes enregistrées',deleteAll:'Supprimer toutes les notes de ce navigateur',storageNotice:'Les notes restent dans le stockage local du navigateur jusqu’à leur suppression ou l’effacement des données du navigateur. Ceci est une démonstration, pas un canal de réclamation ou de retour produit surveillé.',productFeedback:'Retour sur le produit :',feedbackNotice:'aucun canal vers Sciar n’est configuré dans ce projet. Un produit réel devrait proposer un canal facultatif distinct et clairement expliqué, avec un destinataire nommé, une finalité, des limites d’accès, une durée de conservation et des informations de confidentialité.',footer:'Cas pédagogique fictif (H9LOCHFFT, NCI). Les chiffres proviennent des fichiers du cas et leur méthode de calcul est indiquée.',week:'Semaine',weekBeginning:'début de semaine',hours:'h',points:'points',after:'après 23 h',source:'Source',filter:'Filtre',included:'inclus',rows:'lignes',calculation:'Calcul',sum:'somme',recordedAs:'Enregistrés comme versés à Halloran’s sur',openingRows:'jours d’ouverture',noConcern:'Aucune note n’est encore enregistrée dans ce navigateur.',remove:'Supprimer cette note locale',savedOn:'Enregistrée dans ce navigateur',localRemoved:'La note locale a été supprimée de ce navigateur.',allDeleted:'Toutes les notes enregistrées par cette démonstration ont été supprimées de ce navigateur.',saveSuccess:'Votre note a été enregistrée dans ce navigateur uniquement. Elle n’a été envoyée ni à Sciar ni à la direction.',writeConcern:'Veuillez saisir un problème avant de l’enregistrer.',saveError:'La note n’a pas pu être enregistrée dans ce navigateur :',removeError:'Impossible de supprimer la note locale :',clearError:'Impossible de supprimer les notes enregistrées :',readError:'Impossible de lire les notes dans le stockage local du navigateur.',invalidData:'Impossible de charger ou vérifier les données du cas :',checkData:'Vérifiez que le dossier data se trouve à côté de app.html.',dataLoaded:'Données chargées :',personalRows:'lignes hebdomadaires personnelles et',openingDayRows:'lignes de jours d’ouverture. La page est fixée à staff_id S12.',couldNotRead:'Impossible de charger',csvNoData:'Le CSV ne contient aucune ligne de données.',missingConcern:'Veuillez saisir un problème avant de l’enregistrer.'},
+        es: {language:'Idioma',weeklySummary:'Resumen semanal de propinas',greeting:'Hola, Rafael',intro:'Aquí tienes el pago registrado y el cálculo del reparto semanal. Esta vista muestra los datos de una sola persona y oculta los importes individuales de los compañeros.',fictionalDemo:'Demostración de un caso ficticio.',demoWarning:'Esta página es un prototipo educativo estático, no un servicio de nóminas autenticado. Está configurada para Rafael y no muestra los pagos individuales de sus compañeros. No uses esta página con datos reales de nóminas sin autenticación y controles de acceso en el servidor.',loading:'Cargando los datos locales…',yourRecord:'Tu registro',weeklyPayout:'Pago semanal',chooseWeek:'Elige una semana piloto',recordedPayout:'Tu pago de propinas registrado',recordedData:'Registrado en los datos de pago proporcionados',hoursWorked:'Horas trabajadas',lateHours:'Después de las 23:00 (sin puntos)',eligibleHours:'Horas computables',yourPoints:'Tus puntos',calculationTitle:'Cómo se calcula tu pago',calculationIntro:'El fondo semanal de propinas se reparte según los puntos del puesto por las horas computables.',ruleNote:'La regla mostrada está documentada para este piloto ficticio de Halloran’s. Los cargos por servicio son independientes del fondo de propinas pagadas con tarjeta.',observedData:'Datos del piloto · observados',serviceTitle:'Cargos por servicio registrados por separado',loadingAggregate:'Cargando el total…',sourceCalculation:'Ver la fuente y el cálculo',serviceDisclaimer:'Esto muestra lo que registran los datos del sistema proporcionados. No determina si el tratamiento del cargo por servicio es legal o adecuado.',localDemo:'Nota local · solo demostración',concernTitle:'Registrar una preocupación',demoLimitation:'Limitación de la demostración:',concernDisclosure:'este formulario guarda una nota solo en este navegador. No la envía a Sciar, Halloran’s ni a un gerente, por lo que Sciar no puede usarla para mejorar el producto. El paquete del caso no incluye un servicio de envío ni un destinatario designado. Cualquier persona con acceso a este perfil del navegador o dispositivo podría leer la nota guardada.',minimiseNotice:'Incluye solo lo necesario para describir el problema. Evita nombres, datos de contacto u otra información identificativa o sensible, salvo que sea esencial. La nota solo se guarda cuando eliges Guardar; esta página no la carga a ningún servidor.',yourConcern:'Tu preocupación',concernPlaceholder:'Escribe aquí tu preocupación',retentionNotice:'Hasta 1.500 caracteres. Esta demostración no tiene fecha de caducidad: elimina la nota aquí o borra los datos de este sitio en el navegador cuando ya no la necesites.',saveConcern:'Guardar en este dispositivo',savedConcerns:'Tus notas guardadas',deleteAll:'Eliminar todas las notas de este navegador',storageNotice:'Las notas guardadas permanecen en el almacenamiento local del navegador hasta que las elimines o borres los datos del navegador. Es una demostración, no un canal supervisado de reclamaciones o comentarios sobre el producto.',productFeedback:'Comentarios sobre el producto:',feedbackNotice:'este proyecto no tiene configurado un canal activo hacia Sciar. Un producto real debería ofrecer un canal opcional y separado, explicado claramente, con destinatario, finalidad, límites de acceso, periodo de conservación e información de privacidad.',footer:'Caso educativo ficticio (H9LOCHFFT, NCI). Las cifras proceden de los archivos del caso e incluyen su método de cálculo.',week:'Semana',weekBeginning:'inicio de semana',hours:'h',points:'puntos',after:'después de las 23:00',source:'Fuente',filter:'Filtro',included:'incluidas',rows:'filas',calculation:'Cálculo',sum:'suma',recordedAs:'Registrados como pagados a Halloran’s durante',openingRows:'días de apertura',noConcern:'Todavía no hay ninguna preocupación guardada en este navegador.',remove:'Eliminar esta nota local',savedOn:'Guardada en este navegador',localRemoved:'La nota local se eliminó de este navegador.',allDeleted:'Se eliminaron de este navegador todas las notas guardadas por esta demostración.',saveSuccess:'Tu preocupación se guardó solo en este navegador. No se envió a Sciar ni a la dirección.',writeConcern:'Escribe una preocupación antes de guardarla.',saveError:'No se pudo guardar la preocupación en este navegador:',removeError:'No se pudo eliminar la nota local:',clearError:'No se pudieron eliminar las notas guardadas:',readError:'No se pudieron leer las notas del almacenamiento local del navegador.',invalidData:'No se pudieron cargar o verificar los datos del caso:',checkData:'Comprueba que la carpeta data está junto a app.html.',dataLoaded:'Datos cargados:',personalRows:'registros semanales personales y',openingDayRows:'registros de días de apertura. La vista está fijada a staff_id S12.',couldNotRead:'No se pudo cargar',csvNoData:'El CSV no contiene filas de datos.',missingConcern:'Escribe una preocupación antes de guardarla.'},
+        pt: {language:'Idioma',weeklySummary:'Resumo semanal das gorjetas',greeting:'Olá, Rafael',intro:'Aqui está o pagamento registado e o cálculo da divisão semanal. Esta vista mostra os dados de uma pessoa de cada vez e não apresenta os valores individuais dos colegas.',fictionalDemo:'Demonstração de um caso fictício.',demoWarning:'Esta página é um protótipo educativo estático, não um serviço de salários autenticado. Está configurada para Rafael e não mostra os pagamentos individuais dos colegas. Não utilize esta página com dados salariais reais sem autenticação e controlos de acesso no servidor.',loading:'A carregar os dados locais…',yourRecord:'O seu registo',weeklyPayout:'Pagamento semanal',chooseWeek:'Escolha uma semana piloto',recordedPayout:'O seu pagamento de gorjetas registado',recordedData:'Registado nos dados de pagamento fornecidos',hoursWorked:'Horas trabalhadas',lateHours:'Depois das 23:00 (sem pontos)',eligibleHours:'Horas elegíveis',yourPoints:'Os seus pontos',calculationTitle:'Como é calculado o seu pagamento',calculationIntro:'O fundo semanal de gorjetas é dividido com base nos pontos da função pelas horas elegíveis.',ruleNote:'A regra apresentada está documentada para este piloto fictício da Halloran’s. As taxas de serviço são separadas do fundo de gorjetas pagas por cartão.',observedData:'Dados do piloto · observados',serviceTitle:'Taxas de serviço registadas separadamente',loadingAggregate:'A carregar o total…',sourceCalculation:'Ver a fonte e o cálculo',serviceDisclaimer:'Isto mostra o que está registado nos dados do sistema fornecidos. Não determina se o tratamento da taxa de serviço é legal ou adequado.',localDemo:'Nota local · apenas demonstração',concernTitle:'Registar uma preocupação',demoLimitation:'Limitação da demonstração:',concernDisclosure:'este formulário guarda uma nota apenas neste navegador. Não a envia para a Sciar, Halloran’s ou um gerente, pelo que a Sciar não pode utilizá-la para melhorar o produto. O pacote do caso não inclui um serviço de envio nem um destinatário identificado. Qualquer pessoa com acesso a este perfil do navegador ou dispositivo poderá ler a nota guardada.',minimiseNotice:'Inclua apenas o necessário para descrever o problema. Evite nomes, contactos e outras informações identificativas ou sensíveis, salvo se forem essenciais. A nota só é guardada quando escolhe Guardar; esta página não a envia para nenhum servidor.',yourConcern:'A sua preocupação',concernPlaceholder:'Escreva aqui a sua preocupação',retentionNotice:'Até 1.500 caracteres. Esta demonstração não define uma data de expiração: remova a nota aqui ou limpe os dados deste site no navegador quando já não precisar dela.',saveConcern:'Guardar neste dispositivo',savedConcerns:'As suas notas guardadas',deleteAll:'Eliminar todas as notas deste navegador',storageNotice:'As notas guardadas permanecem no armazenamento local do navegador até serem eliminadas ou os dados do navegador serem limpos. Esta é uma demonstração, não um canal monitorizado de reclamações ou opiniões sobre o produto.',productFeedback:'Opiniões sobre o produto:',feedbackNotice:'este projeto não tem um canal ativo configurado para a Sciar. Um produto real deve disponibilizar um canal opcional separado e claramente explicado, com destinatário, finalidade, limites de acesso, período de retenção e informação de privacidade para o utilizador.',footer:'Caso didático fictício (H9LOCHFFT, NCI). Os valores provêm dos ficheiros do caso e incluem o método de cálculo.',week:'Semana',weekBeginning:'início da semana',hours:'h',points:'pontos',after:'após as 23:00',source:'Fonte',filter:'Filtro',included:'incluídas',rows:'linhas',calculation:'Cálculo',sum:'soma',recordedAs:'Registadas como pagas à Halloran’s em',openingRows:'dias de abertura',noConcern:'Ainda não existe nenhuma preocupação guardada neste navegador.',remove:'Remover esta nota local',savedOn:'Guardada neste navegador',localRemoved:'A nota local foi removida deste navegador.',allDeleted:'Todas as notas guardadas por esta demonstração foram eliminadas deste navegador.',saveSuccess:'A sua preocupação foi guardada apenas neste navegador. Não foi enviada à Sciar nem à gerência.',writeConcern:'Escreva uma preocupação antes de guardar.',saveError:'Não foi possível guardar a preocupação neste navegador:',removeError:'Não foi possível remover a nota local:',clearError:'Não foi possível eliminar as notas guardadas:',readError:'Não foi possível ler as notas do armazenamento local do navegador.',invalidData:'Não foi possível carregar ou verificar os dados do caso:',checkData:'Verifique se a pasta data está junto de app.html.',dataLoaded:'Dados carregados:',personalRows:'registos semanais pessoais e',openingDayRows:'registos de dias de abertura. A vista está fixa a staff_id S12.',couldNotRead:'Não foi possível carregar',csvNoData:'O CSV não contém linhas de dados.',missingConcern:'Escreva uma preocupação antes de guardar.'}
+      };
+      let currentLanguage = 'en';
+      const localeTags = { en:'en-IE', pl:'pl-IE', ro:'ro-RO', fr:'fr-FR', es:'es-ES', pt:'pt-PT' };
       const roleRates = {
         'floor manager': 1.5,
         'server': 1,
@@ -211,6 +223,32 @@
       const status = el('data-status');
       let payoutRows = [];
       let takingsRows = [];
+      let dataIssue = '';
+      const t = (key) => messages[currentLanguage][key] || messages.en[key] || key;
+      function applyLanguage(language) {
+        currentLanguage = messages[language] ? language : 'en';
+        document.documentElement.lang = currentLanguage;
+        document.title = `Sciar Tips | ${t('weeklyPayout')}`;
+        document.querySelectorAll('[data-i18n]').forEach((node) => { node.textContent = t(node.dataset.i18n); });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((node) => { node.placeholder = t(node.dataset.i18nPlaceholder); });
+        document.querySelectorAll('[data-i18n-aria]').forEach((node) => { node.setAttribute('aria-label', t(node.dataset.i18nAria)); });
+        el('language-label').textContent = t('language');
+        if (payoutRows.length) {
+          const selectedWeek = el('week-select').value;
+          el('week-select').innerHTML = payoutRows.map((row) => `<option value="${esc(row.week)}">${t('week')} ${esc(row.week)} · ${esc(row.week_start)}</option>`).join('');
+          el('week-select').value = selectedWeek;
+          const selected = payoutRows.find((row) => String(row.week) === el('week-select').value) || payoutRows[payoutRows.length - 1];
+          showWeek(selected);
+          showHiddenFigure(takingsRows, `${t('source')}: ${staffDataSource} and ${takingsDataSource}`);
+          status.textContent = `${t('dataLoaded')} ${payoutRows.length} ${t('personalRows')} ${takingsRows.length} ${t('openingDayRows')}`;
+        } else if (dataIssue) {
+          status.textContent = `${t('invalidData')} ${dataIssue} ${t('checkData')}`;
+        }
+        renderConcerns();
+      }
+      let staffDataSource = 'data/staff-view.csv';
+      let takingsDataSource = 'data/takings.csv';
+      el('language-select').addEventListener('change', (event) => applyLanguage(event.target.value));
 
       function parseCsv(text) {
         const rows = [];
@@ -268,7 +306,7 @@
         return value;
       }
       function money(value) {
-        return new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(value);
+        return new Intl.NumberFormat(localeTags[currentLanguage], { style: 'currency', currency: 'EUR' }).format(value);
       }
       function roundCents(value) { return Math.round((value + Number.EPSILON) * 100) / 100; }
       function esc(value) {
@@ -316,23 +354,23 @@
         const recordedPayout = number(row, 'tip_payout_eur');
         const calcCopy = el('calculation-copy');
         const formula = el('formula');
-        el('week-date').textContent = `Week ${row.week} · week beginning ${row.week_start}`;
+        el('week-date').textContent = `${t('week')} ${row.week} · ${t('weekBeginning')} ${row.week_start}`;
         el('payout-amount').textContent = money(recordedPayout);
-        el('hours-worked').textContent = `${hours.toFixed(1)} h`;
-        el('hours-late').textContent = `${late.toFixed(1)} h`;
-        el('hours-eligible').textContent = `${eligible.toFixed(1)} h`;
-        el('your-points').textContent = `${ownPoints.toFixed(2)} points`;
-        calcCopy.textContent = `Your role is ${row.role}, worth ${number(row, 'points_per_hour').toFixed(2)} points per eligible hour. Eligible hours: ${hours.toFixed(1)} total − ${late.toFixed(1)} after 23:00 = ${eligible.toFixed(1)}. Your points are shown as recorded in the source file; it does not state the precision rule used for points.`;
+        el('hours-worked').textContent = `${hours.toFixed(1)} ${t('hours')}`;
+        el('hours-late').textContent = `${late.toFixed(1)} ${t('hours')}`;
+        el('hours-eligible').textContent = `${eligible.toFixed(1)} ${t('hours')}`;
+        el('your-points').textContent = `${ownPoints.toFixed(2)} ${t('points')}`;
+        calcCopy.textContent = `${t('yourPoints')}: ${number(row, 'points_per_hour').toFixed(2)} ${t('points')} per eligible hour. ${t('eligibleHours')}: ${hours.toFixed(1)} − ${late.toFixed(1)} ${t('after')} = ${eligible.toFixed(1)}. ${t('points')} are shown as recorded in the source file; its precision rule is not stated.`;
         formula.textContent = `${money(pool)} weekly card-tip pool × ${ownPoints.toFixed(2)} of your points ÷ ${teamPoints.toFixed(2)} total staff points = ${money(calculatedPayout)} (rounded to cents).`;
         const diff = Math.abs(calculatedPayout - recordedPayout);
         if (diff > 0.01001) {
-          calcCopy.textContent += ' The recomputed amount does not match the recorded payout; please treat this row as a data discrepancy.';
+          calcCopy.textContent += ` ${t('dataMismatch') || messages.en.dataMismatch}`;
           formula.textContent += ` Recorded payout: ${money(recordedPayout)}.`;
           status.className = 'status error';
-          status.textContent = `Data check: week ${row.week} calculated payout differs from the recorded value.`;
+          status.textContent = `${t('dataCheck')} ${t('week')} ${row.week}: ${t('dataMismatch') || messages.en.dataMismatch}`;
           status.hidden = false;
         }
-        el('payout-provenance').textContent = `Observed source: data/payouts.csv, staff_id = ${row.staff_id}, week = ${row.week} (1 staff row). Total staff points are aggregated from all ${row.week_staff_count} staff rows for that week; only the aggregate is used here. Calculation uses the documented split rule and recorded points, then rounds the payout to cents. The source does not specify a precision rule for points.`;
+        el('payout-provenance').textContent = `${t('observedSource')} data/payouts.csv, staff_id = ${row.staff_id}, ${t('week')} = ${row.week} (1 staff row). ${t('teamPoints')} ${row.week_staff_count} staff rows for that week; only the aggregate is used here. ${t('calculation')}: documented split rule and recorded points, rounded to cents. The source does not specify the points precision rule.`;
       }
 
       function showHiddenFigure(rows, source) {
@@ -341,8 +379,8 @@
         const total = houses.reduce((sum, row) => sum + number(row, 'service_charge_eur'), 0);
         const dates = houses.map((r) => r.date).sort();
         el('service-total').textContent = money(roundCents(total));
-        el('service-caption').textContent = `Recorded as paid to Halloran’s across ${houses.length} opening-day rows, ${dates[0]} to ${dates[dates.length - 1]}.`;
-        el('service-method').textContent = `Source: data/takings.csv (${rows.length} observed opening-day rows). Filter: service_charge_paid_to = house; included ${houses.length} rows with recorded service-charge values. Calculation: sum service_charge_eur across those rows = ${money(roundCents(total))}. The data dictionary defines “house” as Halloran’s. Loaded via ${source}.`;
+        el('service-caption').textContent = `${t('recordedAs')} ${houses.length} ${t('openingRows')}, ${dates[0]}–${dates[dates.length - 1]}.`;
+        el('service-method').textContent = `${t('source')}: data/takings.csv (${rows.length} ${t('rows')}). ${t('filter')}: service_charge_paid_to = house; ${t('included')} ${houses.length} rows with recorded service-charge values. ${t('calculation')}: ${t('sum')} service_charge_eur across those rows = ${money(roundCents(total))}. The data dictionary defines “house” as Halloran’s. ${t('loadedVia')} ${source}.`;
       }
 
       function readConcerns() {
@@ -355,10 +393,10 @@
       function renderConcerns() {
         try {
           const entries = readConcerns();
-          el('saved-list').innerHTML = entries.length ? entries.map((item) => `<article class="saved-item"><div class="saved-meta">Saved on this browser · ${esc(new Date(item.createdAt).toLocaleString())}</div><p class="saved-message">${esc(item.message)}</p><button class="button secondary" type="button" data-remove="${esc(item.id)}">Remove this local record</button></article>`).join('') : '<p class="data-note">No concern is saved in this browser yet.</p>';
+          el('saved-list').innerHTML = entries.length ? entries.map((item) => `<article class="saved-item"><div class="saved-meta">${t('savedOn')} · ${esc(new Date(item.createdAt).toLocaleString(localeTags[currentLanguage]))}</div><p class="saved-message">${esc(item.message)}</p><button class="button secondary" type="button" data-remove="${esc(item.id)}">${t('remove')}</button></article>`).join('') : `<p class="data-note">${t('noConcern')}</p>`;
           el('saved-list').querySelectorAll('[data-remove]').forEach((button) => button.addEventListener('click', () => removeConcern(button.dataset.remove)));
         } catch (error) {
-          el('saved-list').textContent = 'Saved concerns could not be read from this browser’s local storage.';
+          el('saved-list').textContent = t('readError');
           el('storage-note').textContent = error.message;
         }
       }
@@ -367,21 +405,21 @@
           const remaining = readConcerns().filter((item) => item.id !== id);
           localStorage.setItem(storageKey, JSON.stringify(remaining));
           renderConcerns();
-          announce('The local record was removed from this browser.', 'success');
-        } catch (error) { announce(`Could not remove the local record: ${error.message}`, 'error'); }
+          announce(t('localRemoved'), 'success');
+        } catch (error) { announce(`${t('removeError')} ${error.message}`, 'error'); }
       }
       el('clear-concerns').addEventListener('click', () => {
         try {
           localStorage.removeItem(storageKey);
           renderConcerns();
-          announce('All concern notes saved by this demo were deleted from this browser.', 'success');
-        } catch (error) { announce(`Could not delete saved notes: ${error.message}`, 'error'); }
+          announce(t('allDeleted'), 'success');
+        } catch (error) { announce(`${t('clearError')} ${error.message}`, 'error'); }
       });
 
       el('concern-form').addEventListener('submit', (event) => {
         event.preventDefault();
         const message = el('concern-text').value.trim();
-        if (!message) { announce('Write a concern before saving it.', 'error'); el('concern-text').focus(); return; }
+        if (!message) { announce(t('writeConcern'), 'error'); el('concern-text').focus(); return; }
         try {
           const entries = readConcerns();
           const entry = { id: (globalThis.crypto && crypto.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`, createdAt: new Date().toISOString(), message };
@@ -389,8 +427,8 @@
           localStorage.setItem(storageKey, JSON.stringify(entries));
           el('concern-text').value = '';
           renderConcerns();
-          announce('Your concern was saved in this browser only. It was not sent to Sciar or management.', 'success');
-        } catch (error) { announce(`The concern was not saved in this browser: ${error.message}`, 'error'); }
+          announce(t('saveSuccess'), 'success');
+        } catch (error) { announce(`${t('saveError')} ${error.message}`, 'error'); }
       });
 
       async function init() {
@@ -401,8 +439,10 @@
           ]);
           payoutRows = validatePayoutRows(staffTable.rows);
           takingsRows = takingsTable.rows;
+          staffDataSource = staffTable.source;
+          takingsDataSource = takingsTable.source;
           const select = el('week-select');
-          select.innerHTML = payoutRows.map((row) => `<option value="${esc(row.week)}">Week ${esc(row.week)} · ${esc(row.week_start)}</option>`).join('');
+          select.innerHTML = payoutRows.map((row) => `<option value="${esc(row.week)}">${t('week')} ${esc(row.week)} · ${esc(row.week_start)}</option>`).join('');
           select.value = String(payoutRows[payoutRows.length - 1].week);
           select.disabled = false;
           select.addEventListener('change', () => {
@@ -412,11 +452,12 @@
           showWeek(payoutRows[payoutRows.length - 1]);
           showHiddenFigure(takingsRows, `${staffTable.source} and ${takingsTable.source}`);
           status.className = 'status success';
-          status.textContent = `Data loaded: ${payoutRows.length} personal weekly rows and ${takingsRows.length} opening-day rows. The view is fixed to staff_id S12.`;
+          status.textContent = `${t('dataLoaded')} ${payoutRows.length} ${t('personalRows')} ${takingsRows.length} ${t('openingDayRows')}`;
           status.hidden = false;
         } catch (error) {
+          dataIssue = error.message;
           status.className = 'status error';
-          status.textContent = `Case data could not be loaded or checked: ${error.message} Check that the data folder is beside app.html.`;
+          status.textContent = `${t('invalidData')} ${dataIssue} ${t('checkData')}`;
           status.hidden = false;
           el('week-select').disabled = true;
         }
