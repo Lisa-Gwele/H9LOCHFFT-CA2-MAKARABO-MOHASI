@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sciar Tips · staff view (starter)</title></head>
+<body>
+<h1>Sciar Tips</h1>
+<p id="check"></p>
+<!-- The pilot data, loaded as JavaScript so this page also works when opened straight from your disk. -->
+<script src="data/payouts.js"></script>
+<script src="data/takings.js"></script>
+<script>
+  // PAYOUTS and TAKINGS are arrays of rows; every value is a string, as in the CSV. Replace this page with your build.
+  document.getElementById("check").textContent =
+    "Data loaded: " + PAYOUTS.length + " payout rows, " + TAKINGS.length + " takings rows.";
+</script>
+</body></html>
