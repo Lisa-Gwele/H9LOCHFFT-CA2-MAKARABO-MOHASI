@@ -98,3 +98,41 @@ Add new user prompts, concise faithful summaries of assistant responses, and imp
 **Verification:** Ran local static checks confirming three claim cards, the 23:00 figure, README source note, and that `app.html` exists and is linked. No browser visual render or live deployment was performed.
 
 **Corrections:** None. README and Part 4c were not modified/written.
+
+## Turn 11 — Concern reporting and developer feedback
+
+**User prompt:** Questioned the local-only concern wording because Sciar, as the app developer, needs user concerns/complaints to learn and improve the product.
+
+**Response:** Clarify that the current prototype is local-only, so Sciar cannot receive or learn from those entries. A real product should distinguish opt-in product feedback to the Sciar team from workplace concerns involving restaurant management; the latter needs clearly disclosed, appropriately restricted routing. Do not imply a submission channel exists until an actual recipient/backend and access rules are implemented.
+
+## Turn 12 — EU data protection by design
+
+**User prompt:** Said the app should be built to adhere to EU data protection rules.
+
+**Assistant response:** Agreed the product should be designed around GDPR principles, while clarifying that local-only storage alone does not establish compliance. Recommended separating optional product feedback for Sciar from workplace concerns, and specifying purposes, lawful basis, data minimisation, access controls, retention/deletion, security, user rights, and controller/processor responsibilities before implementing any transmission. No code was changed in this response.
+
+**Sources checked:** GDPR text, especially Articles 5, 6 and 25, on EUR-Lex; European Data Protection Board guidance on privacy by design and by default. These sources informed general explanation, not a legal compliance assessment of the fictional app.
+
+**Decision:** No code or copy change made in this turn; clarify the product/design trade-off first.
+
+## Turn 13 — Privacy-focused concern feature update
+
+**User prompt:** Asked to update the app to reflect EU data-protection principles.
+
+**Changes:** Revised the concern section in `app.html` to say that notes are local-only and cannot reach Sciar or support product improvement; advises entering only necessary information and avoiding identifying/sensitive details where unnecessary; explains the note is saved only on user submission and has no expiry; added a control to delete all notes saved under this demo's local-storage key. Added a clear notice that no live Sciar product-feedback channel is configured and described the disclosures a real optional feedback route would need.
+
+**Limit:** This static demonstration still has no server, named recipient, or actual feedback transmission. These interface choices do not establish GDPR compliance. No backend or legal assessment was created. No test suite was run in this turn.
+
+## Turn 14 — Language selector
+
+**User prompt:** Asked whether the app supported language changes because some users may not have English as a first language, then asked to add about five languages also dominant in Ireland.
+
+**Changes:** Added a language selector to the staff view with English, Polish, Romanian, French, Spanish and Portuguese. The five additional languages follow the CSO Census 2022 list of the most commonly spoken languages at home other than English or Irish. Added translated primary labels, explanatory text, privacy copy, concern controls, date and currency locale formatting, and responsive wrapping for the selector. English remains the default; selection is not persisted. Synced the updated page to `publication-ready/app.html`.
+
+**Evidence and limits:** The case pack identifies Rafael’s first language as Portuguese (`messages/01-rafael.md`), but does not establish a language preference for all staff. Census basis: CSO, *Census of Population 2022 — Summary Results, Migration and Diversity* (https://www.cso.ie/en/releasesandpublications/ep/p-cpsr/censusofpopulation2022-summaryresults/migrationanddiversity/). Translations were drafted for this teaching prototype and have not been reviewed by professional or native-speaker translators. Some source identifiers and technical/generated validation messages may remain in English. No tests were run in this turn.
+
+## Turn 15 — Request to update GitHub Pages
+
+**User prompt:** Shared the public GitHub Pages URL and asked to update the HTML on GitHub.
+
+**Actions:** Confirmed the local workspace has no `.git` directory, inspected the supplied Pages URL (the browser inspection tool could not load it), and found a GitHub connector is available but not connected. Requested the GitHub connection through the app’s connection flow. The updated `app.html` and its publication-ready copy are present locally, but no commit, push, or live deployment has occurred.
